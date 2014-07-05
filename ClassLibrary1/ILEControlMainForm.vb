@@ -29,20 +29,6 @@ Public Class ILEControlMainForm
     Declare Auto Function FindWindow Lib "user32" (ByVal lpClassName As String, ByVal lpWindowName As String) As IntPtr
 
     Private Sub ILEControlMainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'SetParent(Me.Handle, FindWindow("WinShellClass", "MetaMorph"))
         SetParent(Me.Handle, FindWindow(vbNullString, "MetaMorph"))
     End Sub
-End Class
-
-Public Class myForm
-    Private Shared m_ILEControlMainForm As ILEControlMainForm
-
-    Public Shared Property ILEControlMainForm As ILEControlMainForm
-        Get
-            Return m_ILEControlMainForm
-        End Get
-        Set(value As ILEControlMainForm)
-            m_ILEControlMainForm = value
-        End Set
-    End Property
 End Class

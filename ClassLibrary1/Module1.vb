@@ -43,7 +43,7 @@ End Interface
 Public Class UserMethods
     Implements IUserMethods
 
-    ' Main window handle.
+    ' Main window handle, but value is incorrect value on 64-bit Windows.
     Private mygParentWnd As Integer
 
     ' Required variable, but currently unused.
@@ -54,9 +54,6 @@ Public Class UserMethods
 
     Public Const ClassId As String = "832F34A5-5CF5-403f-B4A8-428C8351FD02"
     Public Const InterfaceId As String = "3D8B5BA4-FB8C-5ff8-8468-11BF6BD5CF91"
-
-    ' GUI form
-    'Private myform As ILEControlMainForm
 
     Property mm() As MMAppLib.UserCall Implements IUserMethods.mm
         Get
@@ -86,10 +83,6 @@ Public Class UserMethods
     Public Function Startup(ByRef cmdLine As String) As Integer Implements IUserMethods.Startup
         Docommand(cmdLine)
         Return 0
-    End Function
-
-    Public Function GetForm(ByRef handle As Integer) As System.Windows.Forms.Form
-        Return System.Windows.Forms.Control.FromHandle(handle)
     End Function
 
     Public Function Docommand(ByRef cmdLine As String) As Integer Implements IUserMethods.Docommand
