@@ -80,12 +80,25 @@ Public Class UserMethods
         End Set
     End Property
 
-    Public Function Startup(ByRef cmdLine As String) As Integer Implements IUserMethods.Startup
+    Public Function Startup(ByRef cmdLine As String) As Integer _
+        Implements IUserMethods.Startup
         Docommand(cmdLine)
         Return 0
     End Function
 
-    Public Function Docommand(ByRef cmdLine As String) As Integer Implements IUserMethods.Docommand
+    Public Function Docommand(ByRef cmdLine As String) As Integer _
+        Implements IUserMethods.Docommand
+        ' We need to read the MM administrator hwprofile.xml file to
+        ' know the names of the ILE components, in case the user has
+        ' changed the component names.
+
+        ' Find MetaMorph path from the currently executing
+        ' process.
+        Dim procMetaMorphs() As System.Diagnostics.Process
+        Dim pathMetaMorph As String
+        procMetaMorphs = System.Diagnostics.Process.GetProcessesByName("mmapp")
+        pathMetaMorph = procMetaMorphs(0).Modules(0).FileName
+
         ' Pass this instantiated object to the form so that
         ' mm.GetMMVariable, etc can be called from the form.
         Dim myNewForm As New ILEControlMainForm(Me)
