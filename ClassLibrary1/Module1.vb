@@ -86,7 +86,9 @@ Public Class UserMethods
     End Function
 
     Public Function Docommand(ByRef cmdLine As String) As Integer Implements IUserMethods.Docommand
-        Dim myNewForm As New ILEControlMainForm()
+        ' Pass this instantiated object to the form so that
+        ' mm.GetMMVariable, etc can be called from the form.
+        Dim myNewForm As New ILEControlMainForm(Me)
         myNewForm.Show()
         Return 0
     End Function

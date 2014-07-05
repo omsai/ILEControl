@@ -13,6 +13,7 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x64 = Release|x64
+		Description = Spectral Integrated Laser Engine (ILE) Control user program for MetaMorph 7.8 (64-bit)
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1FBC5C0C-7689-46F6-915C-E1519331635D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
