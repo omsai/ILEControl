@@ -55,6 +55,38 @@ Public Class UserMethods
     Public Const ClassId As String = "832F34A5-5CF5-403f-B4A8-428C8351FD02"
     Public Const InterfaceId As String = "3D8B5BA4-FB8C-5ff8-8468-11BF6BD5CF91"
 
+    ' Read INI file.
+    Public Declare Function GetPrivateProfileString Lib "kernel32" _
+        Alias "GetPrivateProfileStringA" _
+        (ByVal lpSectionName As String, _
+         ByVal lpKeyName As String, _
+         ByVal lpDefault As String, _
+         ByVal lpReturnedString As String, _
+         ByVal nSize As Integer, _
+         ByVal lpFileName As String) As Integer
+
+    ' GetIniString copied from:
+    ' http://www.vbknowledgebase.com/?Id=47&Desc=Read-Write-INI-files-using-VB-.Net
+    Public Function GetIniSetting(ByVal strSection As String, _
+                                  ByVal strKey As String, _
+                                  ByVal strIniPath As String) As String
+        Dim strValue As String
+        Dim intPos As Integer
+        On Error GoTo ErrTrap
+        strValue = Space(1024)
+        GetPrivateProfileString(strSection, strKey, "NOT_FOUND", strValue, 1024, strIniPath)
+        Do While InStrRev(strValue, " ") = Len(strValue)
+            strValue = Mid(strValue, 1, Len(strValue) - 1)
+        Loop
+        ' To remove a special character in the last place.
+        strValue = Mid(strValue, 1, Len(strValue) - 1)
+        GetIniSetting = strValue
+ErrTrap:
+        If Err.Number <> 0 Then
+            Err.Raise(Err.Number, , "Error form Fucntions.GetIniSettings " & Err.Description)
+        End If
+    End Function
+
     Property mm() As MMAppLib.UserCall Implements IUserMethods.mm
         Get
             Return mymm
@@ -94,10 +126,19 @@ Public Class UserMethods
 
         ' Find MetaMorph path from the currently executing
         ' process.
-        Dim procMetaMorphs() As System.Diagnostics.Process
-        Dim pathMetaMorph As String
-        procMetaMorphs = System.Diagnostics.Process.GetProcessesByName("mmapp")
-        pathMetaMorph = procMetaMorphs(0).Modules(0).FileName
+        Dim procMMapps() As System.Diagnostics.Process
+        Dim pathMMapp, pathMM As String
+        procMMapps = System.Diagnostics.Process.GetProcessesByName("mmapp")
+        pathMMapp = procMMapps(0).Modules(0).FileName
+        pathMM = System.IO.Path.GetDirectoryName(pathMMapp)
+
+        ' Create the hwprofile.xml path.  The mmadmin program stores the
+        ' group's hardaware assignment in it's INI file.
+        Dim groupName, pathXml, pathMmadminIni, buffer, hardware As String
+        mm.GetMMVariable("GroupName", groupName)
+        pathMmadminIni = System.IO.Path.Combine({pathMM, "MMADMIN.INI"})
+        hardware = GetIniSetting(groupName, "Hardware", pathMmadminIni)
+        pathXml = System.IO.Path.Combine({pathMM, "Hardware", groupName, hardware, "hwprofile.xml"})
 
         ' Pass this instantiated object to the form so that
         ' mm.GetMMVariable, etc can be called from the form.
