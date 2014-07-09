@@ -35,5 +35,7 @@ Icon
 .Spotlight-V100
 .Trashes
 
-# Generated Binaries
+# VB Generated Binaries
 ClassLibrary1/bin/
+ILEControl.dll
+ILEControl.pdb
