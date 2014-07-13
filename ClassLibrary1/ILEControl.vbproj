@@ -101,12 +101,15 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="debugview.vb" />
     <Compile Include="ILEControlMainForm.Designer.vb">
       <DependentUpon>ILEControlMainForm.vb</DependentUpon>
     </Compile>
     <Compile Include="ILEControlMainForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ini.vb" />
+    <Compile Include="mmadmin.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
