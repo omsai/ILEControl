@@ -37,5 +37,6 @@ Icon
 
 # VB Generated Binaries
 ClassLibrary1/bin/
+ClassLibrary1/obj/x64/Debug/
 ILEControl.dll
 ILEControl.pdb
